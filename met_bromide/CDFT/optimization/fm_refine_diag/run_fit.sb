@@ -1,0 +1,9 @@
+#!/bin/bash
+
+python fit_forces_diag.py
+
+python extract_ci.py evb.out
+
+python extract_energies.py evb.out
+
+python check_fit.py ci.dat

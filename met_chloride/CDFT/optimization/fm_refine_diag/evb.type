@@ -1,0 +1,12 @@
+#define CA         1
+#define CL1        2
+#define HA         3
+#define CLBB       4
+#define CL2        5
+#define CLAA       6  
+#define CA-HA      1  
+#define CL1-CA     2
+#define CL2-CA     3
+#define HA-CA-HA   1
+#define CL1-CA-HA  2
+#define CL2-CA-HA  3

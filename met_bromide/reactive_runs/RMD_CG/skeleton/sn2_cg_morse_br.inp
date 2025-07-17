@@ -1,0 +1,35 @@
+#LAMMPS input
+units real
+boundary p p p
+atom_style full
+
+read_data       sn2_br_cg.data
+#read_restart    /project2/gavoth/kuntalg/MSRMD/met_chloride/reactive_runs/acetone/US/attempt_7.5_good/window_0.50/traj.restart2
+read_dump       sn2_cg_XXX.xyz 0 x y z box no format xyz 
+
+bond_style      hybrid harmonic morse
+angle_style     charmm
+pair_style      hybrid/overlay lj/charmm/coul/long 8 12 morse 4.73206714148634 table linear 2000
+
+include "in.coeff_cg"
+
+include "in.charges_cg"
+
+pair_modify     mix arithmetic
+kspace_style    pppm 1e-6
+
+fix             evb all evb evb.cfg evb.out evb_cg.top
+fix             plumed all plumed plumedfile us.inp outfile meta.out
+
+fix nvt all nvt temp 300 300 100.0
+velocity all create 300 1234 rot no dist gaussian
+timestep 0.5
+
+thermo 10000
+thermo_style multi
+
+restart 50000 traj.restart1 traj.restart2
+
+dump out all custom 500000 traj.lammpstrj id mol type q x y z fx fy fz
+dump_modify out sort id
+run 10000000

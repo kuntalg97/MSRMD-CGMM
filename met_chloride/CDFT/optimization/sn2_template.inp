@@ -1,0 +1,44 @@
+units           real
+atom_style      full
+neigh_modify    delay 0 every 1
+
+read_data       met_chloride.data
+
+bond_style      hybrid harmonic morse
+angle_style     charmm
+pair_style      hybrid/overlay lj/charmm/coul/long 8 12 morse global_morse_cut
+dihedral_style  charmm
+improper_style  harmonic
+
+pair_coeff 1 1 lj/charmm/coul/long 0.066 3.5 0.033 3.5
+pair_coeff 2 2 lj/charmm/coul/long 0.3 3.4 0.15 3.4
+pair_coeff 3 3 lj/charmm/coul/long 0.03 2.5 0.015 2.5
+pair_coeff 4 4 lj/charmm/coul/long 0.3 3.4 0.15 3.4
+pair_coeff 5 5 lj/charmm/coul/long 0.3 3.4 0.15 3.4
+pair_coeff 6 6 lj/charmm/coul/long 0.3 3.4 0.15 3.4
+
+pair_coeff 1 2 morse De_ccl_intra alpha_ccl_intra re_ccl_morse
+pair_coeff 1 5 morse De_ccl_intra alpha_ccl_intra re_ccl_morse
+pair_coeff 1 4 morse De_ccl_inter alpha_ccl_inter re_ccl_morse
+pair_coeff 1 6 morse De_ccl_inter alpha_ccl_inter re_ccl_morse
+
+bond_coeff 1 harmonic 340.0 1.09
+bond_coeff 2 morse 103.04341 1.60304 1.78911  
+bond_coeff 3 morse 103.04341 1.60304 1.78911 
+
+angle_coeff 1 33 107.8 0 0
+angle_coeff 2 51 107.6 0 0
+angle_coeff 3 51 107.6 0 0
+
+include "in.charges"
+
+pair_modify     mix arithmetic
+kspace_style    pppm 1e-6
+
+fix             evb all evb evb.cfg evb.out evb.top
+
+thermo          100
+thermo_style    multi
+timestep        0.5
+
+rerun           total_file_ts.xyz dump x y z box no format xyz

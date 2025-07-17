@@ -1,0 +1,6 @@
+set type 1 charge -0.1521  #CA
+set type 2 charge -0.1773  #CL1
+set type 3 charge  0.1098  #HA
+set type 4 charge -1.0000  #CLBB
+set type 5 charge -0.1773  #CL2 
+set type 6 charge -1.0000  #CLAA

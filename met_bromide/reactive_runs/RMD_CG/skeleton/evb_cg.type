@@ -1,0 +1,16 @@
+#define CA         2
+#define CB         9
+#define CL1        1
+#define HA         3
+#define HB         10
+#define BrBB       6
+#define Br         7
+#define CLAA       8  
+#define CA-HA      3  
+#define CB-HB      4
+#define CL1-CA     2
+#define Br-CB      5
+#define HA-CA-HA   3
+#define HB-CB-HB   4
+#define CL1-CA-HA  2
+#define Br-CB-HB   5

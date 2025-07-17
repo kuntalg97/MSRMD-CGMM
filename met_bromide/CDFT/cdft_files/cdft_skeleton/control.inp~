@@ -1,0 +1,116 @@
+@SET MIXED_CDFT_ACTIVE       EXTERNAL_MIXED_CDFT_ACTIVE
+@SET DFT_WFN_FILE            EXTERNAL_DFT_WFN_FILE
+@SET RESTART_1               EXTERNAL_RESTART_1
+@SET WFN_FILE_1              EXTERNAL_WFN_FILE_1
+
+@SET RESTART_2               EXTERNAL_RESTART_2
+@SET WFN_FILE_2              EXTERNAL_WFN_FILE_2
+
+@SET PROJECT_NAME            EXTERNAL_PROJECT_NAME
+@SET XYZFILE                 EXTERNAL_XYZFILE
+@SET QM_INDEX_FILE           EXTERNAL_QM_INDEX_FILE
+@SET CHARGE                  EXTERNAL_CHARGE
+@SET CFUNC                   EXTERNAL_CFUNC
+@SET XFUNC                   EXTERNAL_XFUNC
+@SET XCFUNC                  EXTERNAL_XCFUNC
+@SET HF_FRACTION             EXTERNAL_HF_FRACTION
+
+@SET JOB_TYPE                EXTERNAL_JOB_TYPE
+@SET SAVE_CUBE               EXTERNAL_SAVE_CUBE
+
+@SET BECKE_ACTIVE            EXTERNAL_BECKE_ACTIVE
+@SET BECKE_FILE_1            EXTERNAL_BECKE_FILE_1
+@SET BECKE_STR_1             EXTERNAL_BECKE_STR_1
+@SET BECKE_TARGET_1          EXTERNAL_BECKE_TARGET_1
+@SET BECKE_FILE_2            EXTERNAL_BECKE_FILE_2
+@SET BECKE_STR_2             EXTERNAL_BECKE_STR_2
+@SET BECKE_TARGET_2          EXTERNAL_BECKE_TARGET_2
+@SET BECKE_USE_RADII         EXTERNAL_BECKE_USE_RADII
+
+@SET BECKE_FRAG_CONSTRAINT   EXTERNAL_BECKE_FRAG_CONSTRAINT
+@SET BECKE_FRAG_A_1          EXTERNAL_BECKE_FRAG_A_1
+@SET BECKE_FRAG_B_1          EXTERNAL_BECKE_FRAG_B_1
+@SET BECKE_FRAG_A_2          EXTERNAL_BECKE_FRAG_A_2
+@SET BECKE_FRAG_B_2          EXTERNAL_BECKE_FRAG_B_2
+
+
+&GLOBAL
+  PRINT_LEVEL  LOW
+  PROJECT_NAME ${PROJECT_NAME}
+  RUN_TYPE  ${JOB_TYPE}
+&END GLOBAL
+
+@IF ( ${MIXED_CDFT_ACTIVE} == FALSE )
+&FORCE_EVAL
+  @SET WFN_FILE     ${WFN_FILE_1}
+  @SET RESTART      ${RESTART_1}
+  @SET NAME         ${PROJECT_NAME}
+  @include dft-common-params.inc
+  @include subsys.inc
+&END
+@ENDIF
+
+@IF ( ${MIXED_CDFT_ACTIVE} == TRUE )
+&MULTIPLE_FORCE_EVALS
+  FORCE_EVAL_ORDER 2 3
+  MULTIPLE_SUBSYS F
+&END
+&FORCE_EVAL
+  METHOD MIXED
+  &MIXED
+    MIXING_TYPE MIXED_CDFT
+    NGROUPS  1
+    &MIXED_CDFT
+      ! Calculate mixed CDFT properties every COUPLING step
+      COUPLING     1
+      ! Settings determining how forces are mixed
+      FORCE_STATES 1 2
+      LAMBDA       1.0
+      ! Orthogonalize CDFT states using Lowdin's method
+      ! in addition to standard method
+      LOWDIN      TRUE
+      ! Direct coupling before orthogonaliztion
+      ! in addition to standard method
+      NONORTHOGONAL_COUPLING  TRUE
+      ! Wavefunction overlap method
+      ! in addition to standard method
+      WFN_OVERLAP TRUE
+      WFN_RESTART_FILE_NAME  ${DFT_WFN_FILE}
+      ! Configuration interaction?
+      CI          TRUE
+      ! Turn on printing
+      &PRINT
+        &PROGRAM_RUN_INFO ON
+        &END
+      &END PRINT
+    &END MIXED_CDFT
+  &END MIXED
+  @include subsys.inc
+&END FORCE_EVAL
+# BZC TBH
+&FORCE_EVAL
+  @SET WFN_FILE     ${WFN_FILE_1}
+  @SET RESTART      ${RESTART_1}
+  @SET NAME         ${PROJECT_NAME}_state1
+  @SET BECKE_TARGET ${BECKE_TARGET_1}
+  @SET BECKE_STR    ${BECKE_STR_1}
+  @SET BECKE_FILE     ${BECKE_FILE_1}
+  @SET BECKE_FRAG_A   ${BECKE_FRAG_A_1}
+  @SET BECKE_FRAG_B   ${BECKE_FRAG_B_1}
+  METHOD QS
+  @include dft-common-params.inc
+&END FORCE_EVAL
+# BZR TBHC
+&FORCE_EVAL
+  @SET WFN_FILE       ${WFN_FILE_2}
+  @SET RESTART        ${RESTART_2}
+  @SET NAME           ${PROJECT_NAME}_state2
+  @SET BECKE_TARGET   ${BECKE_TARGET_2}
+  @SET BECKE_STR      ${BECKE_STR_2}
+  @SET BECKE_FILE     ${BECKE_FILE_2}
+  @SET BECKE_FRAG_A   ${BECKE_FRAG_A_2}
+  @SET BECKE_FRAG_B   ${BECKE_FRAG_B_2}
+  METHOD QS
+  @include dft-common-params.inc
+&END FORCE_EVAL
+@ENDIF

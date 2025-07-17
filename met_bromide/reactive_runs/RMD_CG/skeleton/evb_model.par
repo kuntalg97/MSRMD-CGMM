@@ -1,0 +1,4 @@
+#define METCL_SN2_PT
+#define OFFDIAG_G       0.006300831866012
+#define V_IJ_CONSTANT   0.1   # Note the pre-factor in the RAPTOR code
+#define DIAG_VII_CONST  8.5

@@ -1,0 +1,20 @@
+UNITS LENGTH=A TIME=fs ENERGY=kcal/mol
+
+#C-Cl1
+dAB: DISTANCE ATOMS=1,2
+
+#C-Cl2
+dAC: DISTANCE ATOMS=1,6
+
+diff: COMBINE ARG=dAB,dAC COEFFICIENTS=1,-1 PERIODIC=NO
+
+#MOVINGRESTRAINT ...
+#  ARG=diff
+#  STEP0=0        AT0=15.229113 KAPPA0=20.0 #moving with a harder restraint
+#  STEP1=20000    AT1=XXX
+#  STEP2=20000    AT2=XXX       KAPPA2=16.0 #gradually softening the restraint
+#... MOVINGRESTRAINT
+
+restraint: RESTRAINT ARG=diff KAPPA=20.0 AT=XXX
+
+PRINT STRIDE=100 ARG=diff FILE=CV_K20.dat
