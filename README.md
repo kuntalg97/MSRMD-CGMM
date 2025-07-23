@@ -7,7 +7,7 @@ Key steps:
 
 2) Diabatic and force matching: Codes provided
 
-3) Coarse-graining: Using ([OpenMSCG](https://software.rcc.uchicago.edu/mscg/)) for multiscale coarse-graining force-matching
+3) Coarse-graining: Using [OpenMSCG](https://software.rcc.uchicago.edu/mscg/) for multiscale coarse-graining force-matching
 
 4) MS-RMD/AA-MM and MS-RMD/CG-MM simulations: LAMMPS patched with RAPTOR and PLUMED
 - [LAMMPS](https://www.lammps.org/#gsc.tab=0): main classical MD engine
