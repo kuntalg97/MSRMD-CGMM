@@ -13,3 +13,5 @@ Key steps:
 - [LAMMPS](https://www.lammps.org/#gsc.tab=0): main classical MD engine
 - [RAPTOR](https://software.rcc.uchicago.edu/raptor/home.php): required for reactive molecular dynamics (i.e, where bonding topology can change)
 - [PLUMED](https://www.plumed.org/): for enhanced sampling
+
+Additional codes for analyzing RAPTOR output files, and the trajectories themselves can be obtained upon reasonable request.
