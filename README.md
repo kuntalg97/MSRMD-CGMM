@@ -1,6 +1,8 @@
 # MSRMD-CGMM
 This comprises the essential input files and scripts necessary for conducting constrained density functional theory (CDFT)-based fitting, as well as Multiscale Reactive Molecular Dynamics/Coarse-Grained Molecular Mechanics (MS-RMD/CG-MM) simulations.
 
+Corresponding paper: [J. Chem. Theory Comput. 2025, 21, 17, 8456–8467](https://doi.org/10.1021/acs.jctc.5c00930)
+
 Key steps:
 
 1) Constrained Density Functional Theory (CDFT) calculations: These were computed using [CP2K](https://www.cp2k.org/)
