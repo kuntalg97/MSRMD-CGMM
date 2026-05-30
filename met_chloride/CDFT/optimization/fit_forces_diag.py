@@ -1,6 +1,8 @@
 # Kuntal Ghosh (2023-24)
 
-# Based on the code written by Chenghan Li (J. Phys. Chem. B 2021, 125, 37, 10471–10480)
+# Chenghan Li's code uses diabatic matching specifically for glutamate and lysine (J. Phys. Chem. B 2021, 125, 37, 10471–10480)
+# This code couples diabatic matching with force matching for SN2 reactions (two-step protocol)
+# Overlap matrix incorporated explicitly while computing eigenvectors
 
 from evb_out import *
 from read_colvar import *
