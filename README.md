@@ -114,6 +114,30 @@ Both `met_chloride/` and `met_bromide/` follow the same layout:
 | `sn2*.inp` | LAMMPS input scripts |
 | `us.inp` | PLUMED input for umbrella sampling |
 
+## Installation
+
+Brief instructions only; see each package's documentation for full details.
+
+- **Python dependencies** (for the fitting scripts):
+  ```bash
+  pip install numpy scipy matplotlib
+  ```
+- **CP2K**: available as prebuilt binaries or via conda (`conda install -c conda-forge cp2k`), or build from source using the CP2K toolchain. See the [CP2K download page](https://www.cp2k.org/download).
+- **OpenMSCG**: follow the installation instructions in the [OpenMSCG documentation](https://software.rcc.uchicago.edu/mscg/).
+- **PLUMED**: download from [plumed.org](https://www.plumed.org/download), then build and install:
+  ```bash
+  ./configure --prefix=/path/to/plumed
+  make && make install
+  ```
+- **LAMMPS + RAPTOR + PLUMED**: obtain the RAPTOR source from the [RAPTOR website](https://software.rcc.uchicago.edu/raptor/home.php) and add it to the LAMMPS source tree following the RAPTOR instructions. Then build LAMMPS with the PLUMED package enabled, e.g. with the traditional make build:
+  ```bash
+  cd lammps/src
+  make lib-plumed args="-p /path/to/plumed"
+  make yes-plumed
+  make mpi
+  ```
+  The resulting executable (e.g. `lmp_mpi`) is used for both the fitting and the umbrella-sampling runs.
+
 ## Usage
 
 ### Fitting the MS-RMD model
